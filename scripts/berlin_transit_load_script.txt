@@ -1,0 +1,81 @@
+/*******************************************************
+ * PROJECT: Berlin Transit Performance Hub
+ * AUTHOR: Abimael
+ * DESCRIPTION: ETL Script to process GTFS data for VBB
+ * VERSION: 1.0
+ *******************************************************/
+
+
+
+SET ThousandSep=',';
+SET DecimalSep='.';
+SET TimeFormat='h:mm:ss TT';
+SET DateFormat='DD.MM.YYYY';
+
+Agencies:
+LOAD
+    agency_id,
+    IF(Match(agency_name, 'Berliner Verkehrsbetriebe', 'BVG'), 'BVG',
+    IF(WildMatch(agency_name, '*S-Bahn Berlin*'), 'S-Bahn',
+    IF(WildMatch(agency_name, '*Deutsche Bahn*', '*DB Regio*'), 'DB Regional',
+    'Others (Regional Bus)'))) as [Agency Group]
+FROM [lib://Fiscal - Desenvolvimento:DataFiles/agency.txt]
+(txt, codepage is 28591, embedded labels, delimiter is ',', msq);
+
+Routes:
+LOAD
+    route_id,
+    agency_id,
+    route_short_name as [Line],
+    route_type,
+    Pick(Match(route_type, 100, 109, 700, 900, 400, 1, 0, 2, 3) + 1,
+        'Other / Regional',       // n/a
+        'S-Bahn',                 // 100
+        'S-Bahn',                 // 109
+        'Bus',                    // 700
+        'Tram',                   // 900
+        'U-Bahn',                 // 400
+        'U-Bahn',                 // 1
+        'Tram',                   // 0
+        'Rail (Regional)',        // 2
+        'Bus'                     // 3
+    ) as [Transport Type]
+FROM [lib://Fiscal - Desenvolvimento:DataFiles/routes.txt]
+(txt, codepage is 28591, embedded labels, delimiter is ',', msq);
+
+Trips:
+LOAD
+    route_id,
+    trip_id,
+    trip_headsign as [Destination]
+FROM [lib://Fiscal - Desenvolvimento:DataFiles/trips.txt]
+(txt, codepage is 28591, embedded labels, delimiter is ',', msq);
+
+Stops:
+LOAD
+    stop_id,
+    stop_name as [Station Name],
+   Num(Num#([stop_lat], '#.##########', '.')) as [Latitude],
+   Num(Num#([stop_lon], '#.##########', '.')) as [Longitude]
+FROM [lib://Fiscal - Desenvolvimento:DataFiles/stops.txt]
+(txt,utf8, embedded labels, delimiter is ',', msq);
+
+Stop_Times:
+LOAD
+    trip_id,
+    stop_id,
+    Time(Time#([arrival_time], 'h:mm:ss'), 'hh:mm') as [Arrival Hour],
+    Hour(Time#([arrival_time], 'h:mm:ss')) as [Hour Only],
+    stop_sequence
+FROM [lib://Fiscal - Desenvolvimento:DataFiles/stop_times.txt]
+(txt, utf8, embedded labels, delimiter is ',', msq);
+
+
+
+
+
+
+
+
+
+
