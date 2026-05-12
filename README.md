@@ -2,6 +2,10 @@
 
 **Transforming raw public transit data into geospatial intelligence for the German capital.**
 
+## 📊 Final Dashboard
+![Berlin Transit Performance Hub](img/print3-dashboard-screenshot.jpg)
+
+
 ## 📌 Project Overview
 Berlin operates one of Europe's most intricate transit networks. This project processes the **GTFS (General Transit Feed Specification)** from VBB (Verkehrsverbund Berlin-Brandenburg), handling over 400MB of schedule data to solve a core urban mobility question: *Where are the supply bottlenecks during peak demand?*
 
