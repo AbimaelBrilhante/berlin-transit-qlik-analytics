@@ -3,7 +3,7 @@
 **Transforming raw public transit data into geospatial intelligence for the German capital.**
 
 ## 📊 Final Dashboard
-![Berlin Transit Performance Hub](img/print3-dashboard-screenshot.jpg)
+![Berlin Transit Performance Hub](img/print3-dashboard-screenshot.png)
 
 
 ## 📌 Project Overview
