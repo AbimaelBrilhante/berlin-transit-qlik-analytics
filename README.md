@@ -5,6 +5,14 @@
 ## 📊 Final Dashboard
 ![Berlin Transit Performance Hub](img/print3-dashboard-screenshot.png)
 
+## 🏗️ Data Model
+To ensure high performance across 400MB+ of transit records, I designed an optimized associative data model.
+![Qlik Data Model](img/print2-data-model.png)
+
+## 💻 ETL Process & Scripting
+The transformation layer handles UTF-8 encoding for German localization and complex time-based calculations.
+![Load Script Preview](img/print1-script.png)
+
 
 ## 📌 Project Overview
 Berlin operates one of Europe's most intricate transit networks. This project processes the **GTFS (General Transit Feed Specification)** from VBB (Verkehrsverbund Berlin-Brandenburg), handling over 400MB of schedule data to solve a core urban mobility question: *Where are the supply bottlenecks during peak demand?*
